@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     #self
     'base.apps.BaseConfig',
+
 ]
 
 MIDDLEWARE = [
