@@ -23,7 +23,7 @@ class Position(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1024)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=OPEN)
-    band = models.ForeignKey('band', on_delete=models.PROTECT)
+    band = models.ForeignKey('band', on_delete=models.PROTECT, related_name='positions')
 
     def __str__(self):
         return self.name
@@ -38,7 +38,8 @@ class Band(models.Model):
     
 class Subarea(models.Model):
     subarea = models.CharField(max_length=255)
-    area = models.ForeignKey('area', on_delete=models.SET_NULL, null=True)
+    area = models.ForeignKey('area', on_delete=models.SET_NULL,
+                             null=True, related_name='subareas')
 
     def __str__(self):
         return self.subarea
