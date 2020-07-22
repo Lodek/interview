@@ -29,6 +29,11 @@ class Template(models.Model):
 
     description = models.CharField(max_length=500)
 
+    questions = models.ManyToManyField('Question', related_name='+')
+
+    def __str__(self):
+        return self.name
+
 
 class Interview(models.Model):
 
