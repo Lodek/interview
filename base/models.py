@@ -7,6 +7,9 @@ class Candidate(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Position(models.Model):
     OPEN = 'OP'
@@ -22,15 +25,26 @@ class Position(models.Model):
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=OPEN)
     band = models.ForeignKey('band', on_delete=models.PROTECT)
 
+    def __str__(self):
+        return self.name
+
 
 class Band(models.Model):
     band = models.CharField(max_length=2)
+
+    def __str__(self):
+        return self.band
 
     
 class Subarea(models.Model):
     subarea = models.CharField(max_length=255)
     area = models.ForeignKey('area', on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return self.subarea
     
 class Area(models.Model):
     area = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.area
