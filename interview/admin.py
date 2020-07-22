@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Question, Template, Interview, Score
+
+admin.site.register(Question)
+admin.site.register(Template)
+admin.site.register(Interview)
+admin.site.register(Score)
