@@ -2,8 +2,8 @@ from django.db import models
 
 from django.contrib.auth import get_user_model
 
-class Candidate(models.Model):
 
+class Candidate(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
 
