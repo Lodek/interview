@@ -14,6 +14,11 @@ class Question(models.Model):
     subarea = models.ForeignKey('base.Subarea', on_delete=models.SET_NULL,
                                 null=True, related_name='questions')
 
+    weight = models.IntegerField()
+
+    def __str__(self):
+        return self.question
+
 
 class Template(models.Model):
 
