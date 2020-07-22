@@ -38,7 +38,7 @@ INSTALLED_APPS = [
 
     #self
     'base.apps.BaseConfig',
-
+    'interview.apps.InterviewConfig',
 ]
 
 MIDDLEWARE = [
