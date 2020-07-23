@@ -1,3 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .forms import SetupForm
+
+def setup(request):
+    form = SetupForm()
+    return render(request, 'interview/setup.html', {'form': form})
