@@ -15,8 +15,6 @@ Including another URLconf
 """
 from django.urls import include, path
 
-from .views import competency_picker, competency_table
-
 app_name = 'base'
 urlpatterns = [
 ]

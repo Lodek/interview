@@ -23,6 +23,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('interview/', include('interview.urls')),
 ]
 
 if settings.DEBUG:
