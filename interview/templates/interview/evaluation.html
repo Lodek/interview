@@ -1,0 +1,47 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+
+<form action="/interview/review" method="post">
+  {% for area, questions in areas.items %}
+  <section>
+    <h2> {{area}} </h2>
+
+    <table>
+      <tr>
+        <th>N.</th>
+        <th>Questions</th>
+        <th>Subarea</th>
+        <th>Band</th>
+        <th>Weight</th>
+        <th>Score</th>
+      </tr>
+
+      {% for i, question, field in questions %}
+      <tr class="question-row">
+        <th>{{i}}</th>
+        <th>
+          <p>
+          <span>Q:</span> {{question.question}} <br>
+          <span>A:</span> {{question.answer}}
+          <p>
+        </th>
+        <th>{{question.subarea.subarea}}</th>
+        <th>{{question.band}}</th>
+        <th>{{question.weight}}</th>
+        <th>{{field}}</th>
+      </tr>
+      {% endfor %}
+
+    </table>
+
+  </section>
+  
+
+  {% endfor %}
+  <input type="submit" value="Next">
+</form>
+
+{% endblock %}
