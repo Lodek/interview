@@ -1,0 +1,29 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+<h2>Candidate</h2>
+{{candidate}}
+
+<h2>Template</h2>
+{{template}}
+
+<h2>Position</h2>
+{{position}}
+
+<h2>Questions and scores </h2>
+<table>
+<tr>
+  <th>Question</th>
+  <th>Score</th>
+</tr>
+{% for score in scores %}
+<tr>
+  <th>score.question</th>
+  <th>score.score</th>
+</tr>
+
+{% endfor %}
+</table>
+
+{% endblock %}
