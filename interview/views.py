@@ -32,3 +32,6 @@ def evaluation(request):
              for area, questions in areas.items()}
 
     return render(request, 'interview/evaluation.html', {'areas': areas})
+
+def review(request):
+    return render(request, 'interview/review.html')
