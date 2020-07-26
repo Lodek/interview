@@ -4,6 +4,7 @@ from collections import defaultdict, namedtuple
 
 from .forms import SetupForm, score_form_factory
 from .models import Template
+from base.models import Candidate, Position
 
 def setup(request):
     form = SetupForm()
@@ -12,15 +13,15 @@ def setup(request):
 
 def evaluation(request):
     template_id = request.GET['template']
+    candidate_id = request.GET['candidate']
+    position_id = request.GET['position']
     template = Template.objects.get(pk=template_id)
     questions = template.questions.all()
 
     formatter = lambda q: f'score_{q.id}'
-
     field_names = [formatter(question) for question in questions]
-    initial_values = {name: 0 for name in field_names}
-    Form = score_form_factory(field_names)
-    form = Form(initial=initial_values)
+    Form = score_form_factory(field_names, candidate_id, position_id, template_id)
+    form = Form()
 
     areas = defaultdict(list)
     for question in questions:
@@ -31,7 +32,10 @@ def evaluation(request):
                     for i, question in enumerate(questions)]
              for area, questions in areas.items()}
 
-    return render(request, 'interview/evaluation.html', {'areas': areas})
+    return render(request, 'interview/evaluation.html', {
+        'areas': areas,
+        'form': form,
+    })
 
 def review(request):
     return render(request, 'interview/review.html')
