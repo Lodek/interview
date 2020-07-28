@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from inteview.models import Question
+from interview.models import Question
 
 from .stats import StatCalculator
 
@@ -18,11 +18,11 @@ class StatCalculatorTest(TestCase):
         avg = self.calc._calculate_avg(self.scores)
         self.assertEqual(avg, 11/5)
         
-   def test_calculate_avgs(self):
-       groups = {
-           'a': self.scores,
-           'b': self.scores,
-       }
-       avgs = self.calc._calculate_avgs(groups)
-       self.assertEqual(avg['a'], 11/5)
-       self.assertEqual(avg['b'], 11/5)
+    def test_calculate_avgs(self):
+        groups = {
+            'a': self.scores,
+            'b': self.scores,
+        }
+        avgs = self.calc._calculate_avgs(groups)
+        self.assertEqual(avgs['a'], 11/5)
+        self.assertEqual(avgs['b'], 11/5)
