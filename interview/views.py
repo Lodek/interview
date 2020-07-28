@@ -12,15 +12,17 @@ def setup(request):
 
 
 def evaluation(request):
+    request.sessions['template_id'] = request.GET['template']
+    request.sessions['candidate_id'] = request.GET['candidate']
+    request.sessions['position_id'] = request.GET['position']
+
     template_id = request.GET['template']
-    candidate_id = request.GET['candidate']
-    position_id = request.GET['position']
     template = Template.objects.get(pk=template_id)
     questions = template.questions.all()
 
     formatter = lambda q: f'score_{q.id}'
     field_names = [formatter(question) for question in questions]
-    Form = score_form_factory(field_names, candidate_id, position_id, template_id)
+    Form = score_form_factory(field_names)
     form = Form()
 
     areas = defaultdict(list)
@@ -32,10 +34,7 @@ def evaluation(request):
                     for i, question in enumerate(questions)]
              for area, questions in areas.items()}
 
-    return render(request, 'interview/evaluation.html', {
-        'areas': areas,
-        'form': form,
-    })
+    return render(request, 'interview/evaluation.html', {'areas': areas})
 
 def review(request):
     return render(request, 'interview/review.html')
