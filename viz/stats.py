@@ -13,15 +13,15 @@ class StatCalculator:
 
     def calculate_band_avg(self):
         groups = self._grouper(lambda question: question.band)
-        return self._calculate_avg(groups)
+        return self._calculate_avgs(groups)
 
     def calculate_subarea_avg(self):
-        groups = self._grouper(lambda question: question.band.subarea)
-        return self._calculate_avg(groups)
+        groups = self._grouper(lambda question: question.subarea)
+        return self._calculate_avgs(groups)
 
     def calculate_area_avg(self):
-        groups = self._grouper(lambda question: question.area)
-        return self._calculate_avg(groups)
+        groups = self._grouper(lambda question: question.subarea.area)
+        return self._calculate_avgs(groups)
 
     def _grouper(self, group_lambda):
         """Return dictionary of [(question, score)] where questions area grouped by the
@@ -31,17 +31,18 @@ class StatCalculator:
             groups[group_lambda(question)].append((question, score))
         return groups
 
-    def _calculate_avg(self, groups):
-        """Return dictionary of the weighted average for grouped scores.
-        Keys in the dictionary are the same as groups dict"""
-        zero_factory = lambda: 0
-        numerator = defaultdict(zero_factory)
-        denominator = defaultdict(zero_factory)
-        for group, scores in groups:
-            for question, score in scores:
-                numerator[group] += score * question.weight
-                denominator[group] += question.weight
-        results = {}
-        for group in numerator:
-            results[group] = numerator[group] / denominator[group]
-        return results
+    def _calculate_avgs(self, groups):
+        """Calculate the avg for all groups in groups.
+        Group is a dict with group as key and list of (question, score) as tuple"""
+        return {group: self._calculate_avg(scores) for group, scores in groups.items()}
+
+    def _calculate_avg(self, scores):
+        """
+        Calculate the weighted avg of a list of question and score tuple
+        """
+        numerator = 0
+        denominator = 0
+        for question, score in scores:
+            numerator += score * question.weight
+            denominator += question.weight
+        return numerator / denominator
