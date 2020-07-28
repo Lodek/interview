@@ -46,11 +46,13 @@ def review(request):
     template = Template.objects.get(pk=template_id)
 
     extract_pk = lambda key: int(key.replace('score_', ''))
-    questions_scores = [(Question.objects.get(pk=extract_pk(key)), int(score))
+    question_scores = [(Question.objects.get(pk=extract_pk(key)), int(score))
                         for key, score in request.POST.items() if 'score_' in key]
 
+    request.session['scores'] = [(question.id, score) for question, score in question_scores]
+
     return render(request, 'interview/review.html', {
-        'questions_scores': questions_scores,
+        'question_scores': question_scores,
         'position': position,
         'candidate': candidate,
         'template': template,
@@ -61,18 +63,16 @@ def conclusion(request):
     candidate_id = request.session['candidate_id']
     position_id = request.session['position_id']
 
-    extract_pk = lambda key: int(key.replace('score_', ''))
-    questions_scores = {Question.objects.get(extract_pk(key)): int(score)
-                        for key, score in request.POST.items() if 'score_' in key}
-
     interview = Interview()
     interview.position = Position.objects.get(pk=position_id)
     interview.candidate = Candidate.objects.get(pk=candidate_id)
     interview.interviewer = request.user
     interview.save()
 
-    for question, score in questions_scores.items():
-        score = Score(question=question, score=score, interview=interview)
-        score.save()
+    question_scores = [(Question.objects.get(pk=pk), score)
+                       for pk, score in request.session['scores']]
+
+    for question, score in question_scores:
+        Score(question=question, score=score, interview=interview).save()
 
     return render(request, 'interview/conclusion.html', dict(inteview=interview))
