@@ -1,0 +1,28 @@
+version: '3.7'
+
+#this is not actual production.
+#there's no application server
+#there's no nginx
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Devops/Dockerfile-python
+    ports:
+      - 8000:8000
+    depends_on:
+      - database
+    env_file:
+      - .env
+    command: python manage.py runserver 0.0.0.0:8000
+
+  database:
+    image: postgres:12-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+
+volumes:
+  db-data:

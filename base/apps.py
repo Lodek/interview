@@ -5,7 +5,10 @@ class BaseConfig(AppConfig):
     name = 'base'
 
     def ready(self):
-        self.create_bands()
+        try:
+            self.create_bands()
+        except Exception: #oof, gotta find a better way to solve this when there's no table
+            pass
 
     def create_bands(self):
         from .models import Band
