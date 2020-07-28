@@ -1,3 +1,10 @@
+"""
+Overall these views are awful.
+- Add back option between steps
+- Make use of GeneriViews
+- ViewClass
+- between each step, post to self, validate data and use next to go to next step
+"""
 from django.shortcuts import render
 
 from collections import defaultdict, namedtuple
