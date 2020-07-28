@@ -48,7 +48,7 @@ class Interview(models.Model):
     candidate = models.ForeignKey('base.Candidate', on_delete=models.SET_NULL,
                                   null=True, related_name='interviews')
 
-    observations = models.CharField(max_length=5000)
+    comments = models.CharField(max_length=5000)
 
 
 class Score(models.Model):
