@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
 
-<form action="/interview/review" method="post">
+<form action="/interview/observations" method="post">
   {% csrf_token %}
   {% for area, questions in areas.items %}
   <section>
