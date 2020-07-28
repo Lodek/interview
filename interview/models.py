@@ -50,6 +50,10 @@ class Interview(models.Model):
 
     comments = models.CharField(max_length=5000)
 
+    @property
+    def question_scores(self):
+        return {score.question: score.score for score in self.scores.all()}
+
 
 class Score(models.Model):
 
