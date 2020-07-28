@@ -2,9 +2,11 @@ from django.shortcuts import render
 
 from collections import defaultdict, namedtuple
 
-from .forms import SetupForm, score_form_factory
+from .forms import SetupForm, score_form_factory, ObservationsForm
 from .models import Template, Question, Score, Interview
 from base.models import Candidate, Position
+
+
 
 def setup(request):
     form = SetupForm()
@@ -36,6 +38,13 @@ def evaluation(request):
 
     return render(request, 'interview/evaluation.html', {'areas': areas})
 
+
+def observations(request):
+    return render(request, 'interview/observations.html', {
+        'form': ObservationsForm()
+    })
+
+
 def review(request):
     template_id = request.session['template_id'] 
     candidate_id = request.session['candidate_id']
@@ -58,6 +67,9 @@ def review(request):
         'template': template,
     })
 
+
+
+
 def conclusion(request):
     template_id = request.session['template_id'] 
     candidate_id = request.session['candidate_id']
@@ -76,3 +88,5 @@ def conclusion(request):
         Score(question=question, score=score, interview=interview).save()
 
     return render(request, 'interview/conclusion.html', dict(inteview=interview))
+
+
