@@ -9,7 +9,7 @@
   let band_results = {{band_results | safe}}
 
 
-  google.charts.load('current', {'packages':['corechart']});
+  google.charts.load('current', {'packages':['corechart', 'table']});
   google.charts.setOnLoadCallback(drawBand);
   google.charts.setOnLoadCallback(drawArea);
   google.charts.setOnLoadCallback(drawSubarea);
@@ -27,6 +27,9 @@
 
       var chart = new google.visualization.ColumnChart(document.getElementById('band_chart'));
       chart.draw(data, options);
+
+      var table = new google.visualization.Table(document.getElementById('band_table'));
+      table.draw(data);
   }
 
   function drawArea() {
@@ -43,6 +46,10 @@
 
       var chart = new google.visualization.ColumnChart(document.getElementById('area_chart'));
       chart.draw(data, options);
+
+
+      var table = new google.visualization.Table(document.getElementById('area_table'));
+      table.draw(data);
   }
 
   function drawSubarea() {
@@ -59,11 +66,42 @@
 
       var chart = new google.visualization.ColumnChart(document.getElementById('subarea_chart'));
       chart.draw(data, options);
+      var table = new google.visualization.Table(document.getElementById('subarea_table'));
+      table.draw(data);
   }
 
 </script>
 
+<style>
+  .result {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+  }
+</style>
+
+<h1>Interview Detail</h1>
+
+{{inteview.candidate.name}}
+{{inteview.position.name}}
+{{inteview.comments}}
+
+<h2>Area results</h2>
+<div class="result">
 <div id="area_chart"></div>
+<div id="area_table"></div>
+</div>
+
+<h2>Subarea results</h2>
+<div class="result">
 <div id="subarea_chart"></div>
+<div id="subarea_table"></div>
+</div>
+
+<h2>Band results</h2>
+<div class="result">
 <div id="band_chart"></div>
+<div id="band_table"></div>
+</div>
 {% endblock %}

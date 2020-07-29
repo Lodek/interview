@@ -18,6 +18,7 @@ def detail(request, interview_id):
                        for subarea, result in calculator.calculate_subarea_avg(question_scores).items()]
     
     return render(request, 'viz/detail.html', {
+        'interview': interview,
         'area_results': json.dumps(area_results),
         'band_results': json.dumps(band_results),
         'subarea_results': json.dumps(subarea_results),
