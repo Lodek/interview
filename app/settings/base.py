@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = 'c_-ix8x&k223+gw*+!514fdnyhmyz#b5utqvmltbln%+t10+6o'
 
 
-ALLOWED_HOSTS = ['10.170.129.117']
+ALLOWED_HOSTS = ['10.170.129.117', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     #self
     'base.apps.BaseConfig',
     'interview.apps.InterviewConfig',
+    'viz.apps.VizConfig',
 ]
 
 MIDDLEWARE = [
