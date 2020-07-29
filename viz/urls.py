@@ -4,5 +4,5 @@ from .views import detail
 
 app_name = 'viz'
 urlpatterns = [
-    path('<int:pk>', detail, name='detail'),
+    path('<int:interview_id>', detail, name='detail'),
 ]

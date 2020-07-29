@@ -8,26 +8,24 @@ class StatCalculator:
     """
     Calculate weighted averages for interview groupings
     """
-    def __init__(self, scores):
-        self.scores = scores
 
-    def calculate_band_avg(self):
-        groups = self._grouper(lambda question: question.band)
+    def calculate_band_avg(self, scores):
+        groups = self._grouper(scores, lambda question: question.band)
         return self._calculate_avgs(groups)
 
-    def calculate_subarea_avg(self):
-        groups = self._grouper(lambda question: question.subarea)
+    def calculate_subarea_avg(self, scores):
+        groups = self._grouper(scores, lambda question: question.subarea)
         return self._calculate_avgs(groups)
 
-    def calculate_area_avg(self):
-        groups = self._grouper(lambda question: question.subarea.area)
+    def calculate_area_avg(self, scores):
+        groups = self._grouper(scores, lambda question: question.subarea.area)
         return self._calculate_avgs(groups)
 
-    def _grouper(self, group_lambda):
+    def _grouper(self, scores, group_lambda):
         """Return dictionary of [(question, score)] where questions area grouped by the
         result of group_lambda"""
         groups = defaultdict(list)
-        for question, score in self.scores.items():
+        for question, score in scores.items():
             groups[group_lambda(question)].append((question, score))
         return groups
 
