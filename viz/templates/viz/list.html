@@ -15,10 +15,10 @@
   <tbody>
     {% for interview in interviews %}
     <tr>
-      <td>_</td>
+      <td>{{interview.id}}</td>
       <td>{{interview.candidate}}</td>
-      <td>{{inteview.position}}</td>
-      <td>{{inteview.result}}</td>
+      <td>{{interview.position}}</td>
+      <td>{{interview.result}}</td>
       <td>{{interview.date.date}}</td>
       <td><a href={% url 'viz:detail' interview.id %}>View</a></td>
     </tr>
