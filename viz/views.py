@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from interview.models import Interview
 
 from .stats import StatCalculator
+from .forms import select_form_factory
 
 import json
 
@@ -26,6 +27,12 @@ def detail(request, interview_id):
 
 def list(request):
 
+    interviews = Interview.objects.all()
+    form_fields = [f'interview_{interview.id}' for interview in interviews]
+    Form = select_form_factory(form_fields)
+    form = Form()
+    data = [(interview, form[field]) for interview, field in zip(interviews, form_fields)]
+
     return render(request, 'viz/list.html', {
-        'interviews': Interview.objects.all()
+        'data': data,
     })

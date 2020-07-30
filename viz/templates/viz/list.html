@@ -2,28 +2,43 @@
 
 {% block content %}
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Candidate</th>
-      <th scope="col">Position</th>
-      <th scope="col">Result</th>
-      <th scope="col">View</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for interview in interviews %}
-    <tr>
-      <td>{{interview.id}}</td>
-      <td>{{interview.candidate}}</td>
-      <td>{{interview.position}}</td>
-      <td>{{interview.result}}</td>
-      <td>{{interview.date.date}}</td>
-      <td><a href={% url 'viz:detail' interview.id %}>View</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
+<script type="text/javascript">
+  let clickHandler = form_id => {
+      let name = `id_interview_${form_id}`;
+      let element = document.getElementById(name);
+      element.checked = !element.checked;
+  }
+</script>
+
+<form method="get">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">#</th>
+        <th scope="col">Candidate</th>
+        <th scope="col">Position</th>
+        <th scope="col">Result</th>
+        <th scope="col">Date</th>
+        <th scope="col">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for interview, field in data %}
+      <tr onClick="clickHandler({{interview.id}})">
+        <td>{{field}}</td>
+        <td>{{interview.id}}</td>
+        <td>{{interview.candidate}}</td>
+        <td>{{interview.position}}</td>
+        <td>{{interview.result}}</td>
+        <td>{{interview.date.date}}</td>
+        <td><a href={% url 'viz:detail' interview.id %}>View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+    <input type="submit" value="Compare">
+</form>
 </table>
 
 {% endblock %}
