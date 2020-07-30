@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from interview.models import Interview
 
@@ -7,7 +7,7 @@ from .stats import StatCalculator
 import json
 
 def detail(request, interview_id):
-    interview = Interview.objects.get(pk=interview_id)
+    interview = get_object_or_404(Interview, pk=interview_id)
     question_scores = interview.question_scores
     calculator = StatCalculator()
     area_results = [[area.area, result]
