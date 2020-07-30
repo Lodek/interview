@@ -32,15 +32,15 @@ class StatCalculator:
     def _calculate_avgs(self, groups):
         """Calculate the avg for all groups in groups.
         Group is a dict with group as key and list of (question, score) as tuple"""
-        return {group: self._calculate_avg(scores) for group, scores in groups.items()}
+        return {group: self.calculate_avg(scores) for group, scores in groups.items()}
 
-    def _calculate_avg(self, scores):
+    def calculate_avg(self, scores):
         """
         Calculate the weighted avg of a list of question and score tuple
         """
         numerator = 0
         denominator = 0
         for question, score in scores:
-            numerator += score * question.weight
+            numerator += score * question.weight * 2 #2 shifts the scale so score in range(0, 11)
             denominator += question.weight
-        return numerator / denominator
+        return numerator / denominator if denominator else 0
