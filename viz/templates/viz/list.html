@@ -1,0 +1,29 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Candidate</th>
+      <th scope="col">Position</th>
+      <th scope="col">Result</th>
+      <th scope="col">View</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for interview in interviews %}
+    <tr>
+      <td>_</td>
+      <td>{{interview.candidate}}</td>
+      <td>{{inteview.position}}</td>
+      <td>{{inteview.result}}</td>
+      <td>{{interview.date.date}}</td>
+      <td><a href="">View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

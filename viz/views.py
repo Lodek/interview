@@ -23,3 +23,9 @@ def detail(request, interview_id):
         'band_results': json.dumps(band_results),
         'subarea_results': json.dumps(subarea_results),
     })
+
+def list(request):
+
+    return render(request, 'viz/list.html', {
+        'interviews': Interview.objects.all()
+    })
