@@ -2,11 +2,13 @@ from django.db import models
 
 from django.contrib.auth import get_user_model
 
+from viz.stats import StatCalculator
+
 class Question(models.Model):
 
     question = models.CharField(max_length=500)
 
-    answer = models.CharField(max_length=500)
+    answer = models.CharField(max_length=5000)
 
     band = models.ForeignKey('base.Band', on_delete=models.PROTECT,
                              related_name='questions')
@@ -54,6 +56,10 @@ class Interview(models.Model):
     def question_scores(self):
         return {score.question: score.score for score in self.scores.all()}
 
+    @property
+    def result(self):
+        return StatCalculator().calculate_avg([(score.question, score.score)
+                                               for score in self.scores.all()])
 
 class Score(models.Model):
 
