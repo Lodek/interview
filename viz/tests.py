@@ -8,14 +8,14 @@ from .stats import StatCalculator
 class StatCalculatorTest(TestCase):
 
     def setUp(self):
-        self.calc = StatCalculator([])
+        self.calc = StatCalculator()
         self.scores = [
             (Question(weight=3), 3),
             (Question(weight=2), 1),
         ]
 
     def test_calculate_avg(self):
-        avg = self.calc._calculate_avg(self.scores)
+        avg = self.calc.calculate_avg(self.scores)
         self.assertEqual(avg, 11/5)
         
     def test_calculate_avgs(self):
