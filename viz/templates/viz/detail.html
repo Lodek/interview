@@ -13,20 +13,27 @@
   google.charts.setOnLoadCallback(drawBand);
   google.charts.setOnLoadCallback(drawArea);
   google.charts.setOnLoadCallback(drawSubarea);
+
+  function columnOptionFactory() {
+      return {
+          width: 400,
+          height: 240,
+          vAxis: {
+              minValue: 0,
+              maxValue: 10,
+          }
+      };
+  }
+
   function drawBand() {
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Band');
       data.addColumn('number', 'Score');
       data.addRows(band_results)
 
-      var options = {
-          width: 400,
-          height: 240,
-          title: 'Band average',
-      };
 
       var chart = new google.visualization.ColumnChart(document.getElementById('band_chart'));
-      chart.draw(data, options);
+      chart.draw(data, columnOptionFactory());
 
       var table = new google.visualization.Table(document.getElementById('band_table'));
       table.draw(data);
@@ -45,7 +52,7 @@
       };
 
       var chart = new google.visualization.ColumnChart(document.getElementById('area_chart'));
-      chart.draw(data, options);
+      chart.draw(data, columnOptionFactory());
 
 
       var table = new google.visualization.Table(document.getElementById('area_table'));
@@ -65,7 +72,7 @@
       };
 
       var chart = new google.visualization.ColumnChart(document.getElementById('subarea_chart'));
-      chart.draw(data, options);
+      chart.draw(data, columnOptionFactory());
       var table = new google.visualization.Table(document.getElementById('subarea_table'));
       table.draw(data);
   }
