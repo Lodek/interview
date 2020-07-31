@@ -4,13 +4,13 @@ from base.models import Candidate, Position
 from .models import Template
 
 class SetupForm(forms.Form):
-    candidate = forms.ModelChoiceField(Candidate.objects.all())
+    candidate = forms.CharField()
     position = forms.ModelChoiceField(Position.objects.all())
     template = forms.ModelChoiceField(Template.objects.all())
 
 
 class ObservationsForm(forms.Form):
-    comments = forms.CharField(widget=forms.Textarea)
+    comments = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
 
 
 def score_form_factory(field_names):

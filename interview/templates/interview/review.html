@@ -2,16 +2,16 @@
 
 {% block content %}
 
-<h2>Candidate</h2>
+<h4>Candidate</h4>
 {{candidate}}
 
-<h2>Template</h2>
+<h4>Template</h4>
 {{template}}
 
-<h2>Position</h2>
+<h4>Position</h4>
 {{position}}
 
-<h2>Questions and scores </h2>
+<h4>Questions and scores </h4>
 <table>
 <tr>
   <th>Question</th>
@@ -25,11 +25,10 @@
 {% endfor %}
 </table>
 
-<h2>Comments</h2>
+<h4>Comments</h4>
 <p> {{comments}} </p>
   
 
-<button type="button">Back</button>
 <a href={% url 'interview:conclusion' %}>
 <button type="button">Confirm</button>
 </a>

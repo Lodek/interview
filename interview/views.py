@@ -5,7 +5,7 @@ Overall these views are awful.
 - ViewClass
 - between each step, post to self, validate data and use next to go to next step
 """
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from collections import defaultdict, namedtuple
 
@@ -21,8 +21,10 @@ def setup(request):
 
 
 def evaluation(request):
+    candidate_name = request.GET['candidate']
+    candidate, _ = Candidate.objects.get_or_create(name=candidate_name)
     request.session['template_id'] = request.GET['template']
-    request.session['candidate_id'] = request.GET['candidate']
+    request.session['candidate_id'] = candidate.id
     request.session['position_id'] = request.GET['position']
 
     template_id = request.GET['template']
@@ -99,4 +101,4 @@ def conclusion(request):
     for question, score in question_scores:
         Score(question=question, score=score, interview=interview).save()
 
-    return render(request, 'interview/conclusion.html', dict(inteview=interview))
+    return redirect('viz:detail', interview.id)

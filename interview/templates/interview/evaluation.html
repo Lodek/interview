@@ -2,32 +2,36 @@
 
 {% block content %}
 
-<link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
 
 <form action="/interview/observations" method="post">
   {% csrf_token %}
   {% for area, questions in areas.items %}
   <section>
+    <center>
     <h2> {{area}} </h2>
+    </center>
 
-    <table>
+    <table class="table">
+      <thead class="thead-dark">
       <tr>
-        <th>N.</th>
-        <th>Questions</th>
-        <th>Subarea</th>
-        <th>Band</th>
-        <th>Weight</th>
-        <th>Score</th>
+        <th scope="col">N.</th>
+        <th scope="col">Questions</th>
+        <th scope="col">Subarea</th>
+        <th scope="col">Band</th>
+        <th scope="col">Weight</th>
+        <th scope="col">Score</th>
       </tr>
+      </thead>
 
+      <tbody class="table-striped">
       {% for i, question, field in questions %}
       <tr class="question-row">
-        <th>{{i}}</th>
+        <th scope-"row">{{i}}</th>
         <th>
-          <p>
-          <span>Q:</span> {{question.question}} <br>
-          <span>A:</span> {{question.answer}}
-          <p>
+          <p><span class="lead text-secondary">Q:</span>
+            {{question.question}}</p>
+          <p><span class="lead text-secondary">A:</span>
+            {{question.answer}}</p>
         </th>
         <th>{{question.subarea.subarea}}</th>
         <th>{{question.band}}</th>
@@ -35,6 +39,7 @@
         <th>{{field}}</th>
       </tr>
       {% endfor %}
+      </tbody>
 
     </table>
 
