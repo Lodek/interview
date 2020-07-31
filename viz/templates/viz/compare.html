@@ -1,48 +1,79 @@
-{% extends "base/base.html" %}
+{% extends "viz/base.html" %}
 
 {% block content %}
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-  let band_results = {{band_results | safe}}
-
 
   google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawBand);
-  google.charts.setOnLoadCallback(drawArea);
-  google.charts.setOnLoadCallback(drawSubarea);
-  function drawBand() {
+  google.charts.setOnLoadCallback(drawBands);
+  google.charts.setOnLoadCallback(drawAreas);
+  google.charts.setOnLoadCallback(drawSubareas);
+
+  function drawBands() {
       var data = new google.visualization.arrayToDataTable({{table | safe}});
-
-      var options = {
-          title : 'Results per Band',
-          vAxis: {
-              title: 'Score',
-              minValue: 0,
-              maxValue: 10,
-          },
-          hAxis: {title: 'Band'},
-          seriesType: 'bars'
-      }
-
       var chart = new google.visualization.ComboChart(document.getElementById('band_chart'));
-      chart.draw(data, options);
+      chart.draw(data, comboChartOptionFactory("Band"));
   }
+
+  function drawAreas(){
+      var data = new google.visualization.arrayToDataTable({{table | safe}});
+      var chart = new google.visualization.ComboChart(document.getElementById('area_chart'));
+      chart.draw(data, comboChartOptionFactory("Area"));
+  }
+
+  function drawSubareas(){
+      var data = new google.visualization.arrayToDataTable({{table | safe}});
+      var chart = new google.visualization.ComboChart(document.getElementById('subarea_chart'));
+      chart.draw(data, comboChartOptionFactory("Subarea"));
+  }
+  
 </script>
 
 <style>
   .result {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
-
+      
   }
+  .table {
+      width: 50%;
+  }
+
 </style>
 
-<h2>Band results</h2>
+<center>
+
+  <h2>Candidate comparassion</h2>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Candidate</th>
+        <th>Position</th>
+        <th>Interview Result</th>
+      </tr>
+    </thead>
+
+    {% for interview in interviews %}
+    <tbody>
+      <tr>
+        <td>{{interview.id}}</td>
+        <td>{{interview.candidate.name}}</td>
+        <td>{{interview.position.name}}</td>
+        <td>{{interview.result}}</td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+
+</center>
+
 <div class="result">
-<div id="band_chart"></div>
-<div id="band_table"></div>
+  <div id="band_chart"></div>
+  <div id="area_chart"></div>
+  <div id="subarea_chart"></div>
 </div>
 
 {% endblock %}
