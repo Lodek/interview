@@ -75,34 +75,67 @@
 <style>
   .result {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
 
   }
 </style>
 
-<h1>Interview Detail</h1>
+<div class="d-flex justify-content-between align-items-center" style="margin: 0px 120px 0px">
+  <div>
+  <h1>{{interview.candidate.name}}</h1>
+  <span class="text-secondary">Position:</span> {{interview.position.name}}<br>
+  <span class="text-secondary">Interviewer:</span> {{interview.interviewer}}<br>
+  <span class="text-secondary">Date:</span> {{interview.date.date}}
+  </div>
 
-{{interview.candidate.name}}
-{{interview.position.name}}
-{{interview.comments}}
-{{interview.result}}
+  <div class="border rounded-circle d-flex justify-content-center align-items-center" style="text-align: center; vertical-align: middle; height: 70px; width: 70px; background-color: #f7f7f7">
+  <h1>
+    <span id="result" class="">{{interview.result}}</span>
+  </h1>
+  </div>
 
-<h2>Area results</h2>
-<div class="result">
-<div id="area_chart"></div>
-<div id="area_table"></div>
 </div>
 
-<h2>Subarea results</h2>
-<div class="result">
-<div id="subarea_chart"></div>
-<div id="subarea_table"></div>
-</div>
+  {{interview.comments}}
 
-<h2>Band results</h2>
-<div class="result">
-<div id="band_chart"></div>
-<div id="band_table"></div>
-</div>
+<center>
+  <div class="d-flex justify-content-around">
+
+    <div class="result">
+      <div id="area_chart"></div>
+      <div id="area_table"></div>
+    </div>
+
+
+    <div class="result">
+      <div id="subarea_chart"></div>
+      <div id="subarea_table"></div>
+    </div>
+
+
+    <div class="result">
+      <div id="band_chart"></div>
+      <div id="band_table"></div>
+    </div>
+
+  </div>
+
+
+</center>
+
+<script type="text/javascript">
+  {
+      let elem = document.getElementById("result");
+      let result = Number(elem.innerText);
+      let resultClass = ""
+      if (result < 5)
+          resultClass = "text-fail";
+      else if
+          (5 <= result && result < 7) resultClass = "text-warning";
+      else
+          resultClass = "text-success";
+      elem.classList = [resultClass];
+  }
+</script>
 {% endblock %}
