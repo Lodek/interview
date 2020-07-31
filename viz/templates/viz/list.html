@@ -10,7 +10,7 @@
   }
 </script>
 
-<form method="get">
+<form method="get" action="{% url 'viz:compare' %}">
   <table class="table table-hover">
     <thead>
       <tr>
@@ -26,7 +26,7 @@
     <tbody>
       {% for interview, field in data %}
       <tr onClick="clickHandler({{interview.id}})">
-        <td>{{field}}</td>
+        <Td>{{field}}</td>
         <td>{{interview.id}}</td>
         <td>{{interview.candidate}}</td>
         <td>{{interview.position}}</td>
