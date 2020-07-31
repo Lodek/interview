@@ -36,3 +36,23 @@ def list(request):
     return render(request, 'viz/list.html', {
         'data': data,
     })
+
+def compare(request):
+    pks = [int(param.replace('interview_', ''))
+           for param in request.GET.items() if 'interview_' in param]
+    interviews = Interview.objects.filter(pk__in=pks).all()
+    calc = StatCalculator()
+    results_per_candidate = {interview.candidate.name: calc.calculate_band_avg(interview.question_scores)
+                             for interview in interviews}
+    buckets = {bucket for results in results_per_candidate.values()
+               for bucket in results}
+    candidates = [interview.candidate for inteview in interviews]
+    header = ['Band'] + candidates
+    body = []
+    for bucket in buckets:
+        body.append([results_per_candidate[candidate][bucket]
+                     for candidate in candidates])
+    table = header + body
+    
+    return render(request, 'viz/compare.html', {
+        'table': json.dumps(table)})

@@ -44,3 +44,25 @@ class StatCalculator:
             numerator += score * question.weight * 2 #2 shifts the scale so score in range(0, 11)
             denominator += question.weight
         return numerator / denominator if denominator else 0
+
+
+class Comparation:
+
+    interviews = []
+    candidate = []
+    band_standings = []
+    subarea_standings = []
+    area_standings = []
+    
+
+    def compare_by_band(self):
+        candidates = [interview.candidate for interview in self.interviews]
+        calc = StatCalculator()
+        candidate_result = {interview.candidate: calc.calculate_band_avg(interview.question_scores)
+                            for interview in self.interviews}
+        buckets = {bucket for result in results
+                   for bucket in result.keys()}
+        comparassion = {bucket: {candidate: result
+                                 for candidate, result in candidate_result.items() }
+                        for bucket in buckets }
+        return comparassion

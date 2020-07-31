@@ -5,6 +5,7 @@ from interview.models import Question
 from .stats import StatCalculator
 
 
+
 class StatCalculatorTest(TestCase):
 
     def setUp(self):
@@ -26,3 +27,30 @@ class StatCalculatorTest(TestCase):
         avgs = self.calc._calculate_avgs(groups)
         self.assertEqual(avgs['a'], 11/5)
         self.assertEqual(avgs['b'], 11/5)
+
+class ComparationTest(TestCase):
+    
+    def test_compare(self):
+
+        john = 'John'
+        steve = 'Steve'
+
+
+        johns_iterview = Interview(candidate=john)
+        steves_iterview = Interview(candidate=steve)
+
+
+        band_standings = {
+            'B1': {
+                'John': 8,
+                'Steve': 9
+            },
+            'B2': {
+                'John': 4,
+                'Steve': 8
+            },
+            'B3': {
+                'John': 2,
+                'Steve': 9
+            }
+        }
