@@ -39,20 +39,20 @@ def list(request):
 
 def compare(request):
     pks = [int(param.replace('interview_', ''))
-           for param in request.GET.items() if 'interview_' in param]
+           for param in request.GET if 'interview_' in param]
     interviews = Interview.objects.filter(pk__in=pks).all()
     calc = StatCalculator()
     results_per_candidate = {interview.candidate.name: calc.calculate_band_avg(interview.question_scores)
                              for interview in interviews}
-    buckets = {bucket for results in results_per_candidate.values()
-               for bucket in results}
-    candidates = [interview.candidate for inteview in interviews]
+    buckets = {bucket for result in results_per_candidate.values()
+               for bucket in result}
+    candidates = [interview.candidate.name for interview in interviews]
     header = ['Band'] + candidates
     body = []
     for bucket in buckets:
-        body.append([results_per_candidate[candidate][bucket]
+        body.append([str(bucket)] + [results_per_candidate[candidate][bucket]
                      for candidate in candidates])
-    table = header + body
-    
+    table = [header] + body
     return render(request, 'viz/compare.html', {
-        'table': json.dumps(table)})
+        'table': json.dumps(table),
+    })
