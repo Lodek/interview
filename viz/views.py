@@ -55,4 +55,5 @@ def compare(request):
     table = [header] + body
     return render(request, 'viz/compare.html', {
         'table': json.dumps(table),
+        'interviews': interviews,
     })
