@@ -6,6 +6,9 @@ from .stats import StatCalculator
 from .forms import select_form_factory
 
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 def detail(request, interview_id):
     interview = get_object_or_404(Interview, pk=interview_id)
@@ -42,18 +45,33 @@ def compare(request):
            for param in request.GET if 'interview_' in param]
     interviews = Interview.objects.filter(pk__in=pks).all()
     calc = StatCalculator()
-    results_per_candidate = {interview.candidate.name: calc.calculate_band_avg(interview.question_scores)
+    band_per_interview = {interview: calc.calculate_band_avg(interview.question_scores)
                              for interview in interviews}
-    buckets = {bucket for result in results_per_candidate.values()
+    area_per_interview = {interview: calc.calculate_area_avg(interview.question_scores)
+                             for interview in interviews}
+    subarea_per_interview = {interview: calc.calculate_subarea_avg(interview.question_scores)
+                             for interview in interviews}
+    subarea_data = bucketize(interviews, subarea_per_interview, 'Subarea')
+    band_data = bucketize(interviews, band_per_interview, 'Band')
+    area_data = bucketize(interviews, area_per_interview, 'Area')
+    return render(request, 'viz/compare.html', {
+       'subarea_data': json.dumps(subarea_data),
+       'area_data': json.dumps(area_data),
+       'band_data': json.dumps(band_data),
+       'interviews': interviews,
+   })
+
+def bucketize(interviews, results_per_interview, header):
+    buckets = {bucket for result in results_per_interview.values()
                for bucket in result}
-    candidates = [interview.candidate.name for interview in interviews]
-    header = ['Band'] + candidates
+    header = [header] + [interview.candidate.name for interview in interviews]
     body = []
     for bucket in buckets:
-        body.append([str(bucket)] + [results_per_candidate[candidate][bucket]
-                     for candidate in candidates])
-    table = [header] + body
-    return render(request, 'viz/compare.html', {
-        'table': json.dumps(table),
-        'interviews': interviews,
-    })
+        row = [str(bucket)]
+        for interview in interviews:
+            try:
+                row.append(results_per_interview[interview][bucket])
+            except KeyError:
+                row.append(0)
+        body.append(row)
+    return [header] + body

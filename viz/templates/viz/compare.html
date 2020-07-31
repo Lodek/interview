@@ -10,19 +10,19 @@
   google.charts.setOnLoadCallback(drawSubareas);
 
   function drawBands() {
-      var data = new google.visualization.arrayToDataTable({{table | safe}});
+      var data = new google.visualization.arrayToDataTable({{band_data | safe}});
       var chart = new google.visualization.ComboChart(document.getElementById('band_chart'));
       chart.draw(data, comboChartOptionFactory("Band"));
   }
 
   function drawAreas(){
-      var data = new google.visualization.arrayToDataTable({{table | safe}});
+      var data = new google.visualization.arrayToDataTable({{area_data | safe}});
       var chart = new google.visualization.ComboChart(document.getElementById('area_chart'));
       chart.draw(data, comboChartOptionFactory("Area"));
   }
 
   function drawSubareas(){
-      var data = new google.visualization.arrayToDataTable({{table | safe}});
+      var data = new google.visualization.arrayToDataTable({{subarea_data | safe}});
       var chart = new google.visualization.ComboChart(document.getElementById('subarea_chart'));
       chart.draw(data, comboChartOptionFactory("Subarea"));
   }
