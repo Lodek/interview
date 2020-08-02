@@ -8,3 +8,6 @@ def select_form_factory(field_names):
               for name in field_names}
     fields['CHOCIES'] = CHOICES
     return type('ScoreForm', (forms.Form,), fields)
+
+class ListFilterForm(forms.Form):
+    candidate = forms.CharField(required=False)

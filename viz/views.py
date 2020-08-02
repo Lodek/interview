@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from interview.models import Interview
 
 from .stats import StatCalculator
-from .forms import select_form_factory
+from .forms import select_form_factory, ListFilterForm
 
 import json
 import logging
@@ -28,16 +28,35 @@ def detail(request, interview_id):
         'subarea_results': json.dumps(subarea_results),
     })
 
-def list(request):
+def filter_factory(param, value):
+    if param == 'from_date':
+        return {'date__gte': value}
+    if param == 'to_date':
+        return {'date__lte': value}
+    if param == 'candidate':
+        return {'candidate__name__regex': f'.*{value.lower()}.*'}
+    else:
+        return {}
 
-    interviews = Interview.objects.all()
+def list(request):
+    queryset = Interview.objects
+    for key, value in request.GET.items():
+        if value:
+            filter = filter_factory(key, value)
+            if filter:
+                queryset = queryset.filter(**filter)
+    interviews = queryset.all()
     form_fields = [f'interview_{interview.id}' for interview in interviews]
     Form = select_form_factory(form_fields)
     form = Form()
     data = [(interview, form[field]) for interview, field in zip(interviews, form_fields)]
 
+    filter_init = {'candidate': request.GET['candidate'] if request.GET['candidate'] else ''}
+    filter_form = ListFilterForm(initial=filter_init)
+
     return render(request, 'viz/list.html', {
         'data': data,
+        'filter_form': filter_form
     })
 
 def compare(request):

@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<!-- Datepicker -->
 <script type="text/javascript">
   let clickHandler = form_id => {
       let name = `id_interview_${form_id}`;
@@ -9,6 +10,11 @@
       element.checked = !element.checked;
   }
 </script>
+
+<form method="get">
+ {{filter_form}}
+ <input type="submit" value="Filter">
+</form>
 
 <form method="get" action="{% url 'viz:compare' %}">
   <table class="table table-hover">
