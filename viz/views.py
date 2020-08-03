@@ -51,7 +51,7 @@ def list(request):
     form = Form()
     data = [(interview, form[field]) for interview, field in zip(interviews, form_fields)]
 
-    filter_init = {'candidate': request.GET['candidate'] if request.GET['candidate'] else ''}
+    filter_init = {'candidate': request.GET.get('candidate', '')}
     filter_form = ListFilterForm(initial=filter_init)
 
     return render(request, 'viz/list.html', {
