@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 
 from viz.stats import StatCalculator
 
+import json
+
 class Question(models.Model):
 
     question = models.CharField(max_length=500)
@@ -60,6 +62,19 @@ class Interview(models.Model):
     def result(self):
         return StatCalculator().calculate_avg([(score.question, score.score)
                                                for score in self.scores.all()])
+    def as_dict(self):
+        calc = StatCalculator()
+        flat_attrs = 'date interviewer position candidate comments'.split()
+        dict = {attr: getattr(self, attr) for attr in flat_attrs}
+        dict['area_results'] = calc.calculate_area_avg()
+        dict['subarea_results'] = calc.calculate_subarea_avg()
+        dict['band_results'] = calc.calculate_band_avg()
+        dict['question_scores'] = self.question_scores
+        return dict
+
+    def jsonfy(self):
+        return json.dumps(self.as_dict())
+
 
 class Score(models.Model):
 
