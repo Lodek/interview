@@ -81,13 +81,14 @@ class Interview(models.Model):
         scores = []
         for question, score in self.question_scores.items():
             d = question.as_dict()    
+            d.pop('answer')
             d['score'] = score
             scores.append(d)
-        dict['scores'] = scores
+        dict['scores'] = score
         return dict
 
     def jsonfy(self):
-        return json.dumps(self.as_dict())
+        return json.dumps(self.as_dict(), indent=4)
 
 
 class Score(models.Model):
