@@ -20,6 +20,12 @@ class Question(models.Model):
 
     weight = models.IntegerField()
 
+    def as_dict(self):
+        attrs = 'question answer band subarea weight'.split()
+        dict = {attr: str(getattr(self, attr)) for attr in attrs}
+        dict['weight'] = int(dict['weight'])
+        return dict
+
     def __str__(self):
         return self.question
 
@@ -65,11 +71,19 @@ class Interview(models.Model):
     def as_dict(self):
         calc = StatCalculator()
         flat_attrs = 'date interviewer position candidate comments'.split()
-        dict = {attr: getattr(self, attr) for attr in flat_attrs}
-        dict['area_results'] = calc.calculate_area_avg()
-        dict['subarea_results'] = calc.calculate_subarea_avg()
-        dict['band_results'] = calc.calculate_band_avg()
-        dict['question_scores'] = self.question_scores
+        scores = self.question_scores
+        stringfy = lambda d: {str(key): value for key, value in d.items()}
+        dict = {attr: str(getattr(self, attr)) for attr in flat_attrs}
+        dict['area_results'] = stringfy(calc.calculate_area_avg(scores))
+        dict['subarea_results'] = stringfy(calc.calculate_subarea_avg(scores))
+        dict['band_results'] = stringfy(calc.calculate_band_avg(scores))
+
+        scores = []
+        for question, score in self.question_scores.items():
+            d = question.as_dict()    
+            d['score'] = score
+            scores.append(d)
+        dict['scores'] = scores
         return dict
 
     def jsonfy(self):

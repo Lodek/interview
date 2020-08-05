@@ -88,6 +88,16 @@
   }
 </style>
 
+<div>
+	<button type="button" class="btn btn-link">
+		<a href="{% url "viz:json" interview.id %}">View Json</a>
+	</button>
+	<button type="button" class="btn btn-link">
+		<!-- Could make a django filter to generate the json file name></-->
+		<a href="{% url "viz:json" interview.id %}" download="{{interview.candidate.name}}-{{interview.date.date}}.json">Download Json</a>
+	</button>
+</div>
+
 <div class="d-flex justify-content-between align-items-center" style="margin: 0px 120px 0px">
   <div>
   <h1>{{interview.candidate.name}}</h1>
@@ -144,7 +154,7 @@
       let resultClass = ""
       if (result < 5)
           resultClass = "text-danger";
-      else if
+    else if
           (5 <= result && result < 7) resultClass = "text-warning";
       else
           resultClass = "text-success";

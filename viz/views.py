@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 
 from interview.models import Interview
 
@@ -79,6 +80,12 @@ def compare(request):
        'band_data': json.dumps(band_data),
        'interviews': interviews,
    })
+
+
+def json_export(request, interview_id):
+    interview = get_object_or_404(Interview, pk=interview_id)
+    json = interview.jsonfy()
+    return HttpResponse(json)
 
 def bucketize(interviews, results_per_interview, header):
     buckets = {bucket for result in results_per_interview.values()

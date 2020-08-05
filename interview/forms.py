@@ -20,5 +20,3 @@ def score_form_factory(field_names):
               for name in field_names}
     fields['SCORE_CHOCIES'] = SCORE_CHOICES
     return type('ScoreForm', (forms.Form,), fields)
-
-
