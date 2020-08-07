@@ -9,6 +9,7 @@ python = "^3.8"
 django = "^3.0.7"
 psycopg2 = "^2.8.5"
 django-filter = "^2.3.0"
+xlrd = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.15.0"
