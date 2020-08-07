@@ -1,0 +1,13 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+<form enctype="multipart/form-data" method="post">
+  <div class="form-group d-flex flex-column">
+    {% csrf_token %}
+  {{ form }}
+  </div>
+  <input type="submit" value="Upload">
+</form>
+
+{% endblock %}
