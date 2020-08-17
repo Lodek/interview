@@ -60,6 +60,8 @@ class Interview(models.Model):
 
     comments = models.CharField(max_length=5000)
 
+    interviewer_score = models.IntegerField()
+
     @property
     def question_scores(self):
         return {score.question: score.score for score in self.scores.all()}
@@ -70,7 +72,7 @@ class Interview(models.Model):
                                                for score in self.scores.all()])
     def as_dict(self):
         calc = StatCalculator()
-        flat_attrs = 'date interviewer position candidate comments'.split()
+        flat_attrs = 'date interviewer position candidate comments interviewer_score'.split()
         scores = self.question_scores
         stringfy = lambda d: {str(key): value for key, value in d.items()}
         dict = {attr: str(getattr(self, attr)) for attr in flat_attrs}

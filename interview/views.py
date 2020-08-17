@@ -61,7 +61,9 @@ def observations(request):
 
 def review(request):
     comments = request.POST['comments']
+    interviewer_score = request.POST['interviewer_score']
     request.session['comments'] = comments
+    request.session['interviewer_score'] = interviewer_score
 
     template_id = request.session['template_id']
     candidate_id = request.session['candidate_id']
@@ -80,6 +82,7 @@ def review(request):
         'position': position,
         'candidate': candidate,
         'template': template,
+        'interviewer_score': interviewer_score,
     })
 
 
@@ -93,6 +96,7 @@ def conclusion(request):
     interview.candidate = Candidate.objects.get(pk=candidate_id)
     interview.interviewer = request.user
     interview.comments = request.session['comments']
+    interview.interviewer_score = request.session['interviewer_score']
     interview.save()
 
     question_scores = [(Question.objects.get(pk=pk), score)

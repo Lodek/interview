@@ -11,8 +11,10 @@ class SetupForm(forms.Form):
 
 
 class ObservationsForm(forms.Form):
+    SCORE_CHOICES = [(i, i) for i in range(6)]
     comments = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
-
+    interviewer_score = forms.TypedChoiceField(choices=SCORE_CHOICES, coerce=int,
+                                               empty_value=None, initial=0)
 
 def score_form_factory(field_names):
     SCORE_CHOICES = [(i, i) for i in range(6)]
