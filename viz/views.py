@@ -17,15 +17,15 @@ def detail(request, interview_id):
     calculator = StatCalculator()
     area_results = [[area.area, result]
                     for area, result in calculator.calculate_area_avg(question_scores).items()]
-    band_results = [[band.band, result]
-                    for band, result in calculator.calculate_band_avg(question_scores).items()]
+    seniority_results = [[seniority.seniority, result]
+                    for seniority, result in calculator.calculate_seniority_avg(question_scores).items()]
     subarea_results = [[subarea.subarea, result]
                        for subarea, result in calculator.calculate_subarea_avg(question_scores).items()]
     
     return render(request, 'viz/detail.html', {
         'interview': interview,
         'area_results': json.dumps(area_results),
-        'band_results': json.dumps(band_results),
+        'seniority_results': json.dumps(seniority_results),
         'subarea_results': json.dumps(subarea_results),
     })
 
@@ -65,19 +65,19 @@ def compare(request):
            for param in request.GET if 'interview_' in param]
     interviews = Interview.objects.filter(pk__in=pks).all()
     calc = StatCalculator()
-    band_per_interview = {interview: calc.calculate_band_avg(interview.question_scores)
+    seniority_per_interview = {interview: calc.calculate_seniority_avg(interview.question_scores)
                              for interview in interviews}
     area_per_interview = {interview: calc.calculate_area_avg(interview.question_scores)
                              for interview in interviews}
     subarea_per_interview = {interview: calc.calculate_subarea_avg(interview.question_scores)
                              for interview in interviews}
     subarea_data = bucketize(interviews, subarea_per_interview, 'Subarea')
-    band_data = bucketize(interviews, band_per_interview, 'Band')
+    seniority_data = bucketize(interviews, seniority_per_interview, 'Seniority')
     area_data = bucketize(interviews, area_per_interview, 'Area')
     return render(request, 'viz/compare.html', {
        'subarea_data': json.dumps(subarea_data),
        'area_data': json.dumps(area_data),
-       'band_data': json.dumps(band_data),
+       'seniority_data': json.dumps(seniority_data),
        'interviews': interviews,
    })
 

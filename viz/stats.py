@@ -9,8 +9,8 @@ class StatCalculator:
     Calculate weighted averages for interview groupings
     """
 
-    def calculate_band_avg(self, scores):
-        groups = self._grouper(scores, lambda question: question.band)
+    def calculate_seniority_avg(self, scores):
+        groups = self._grouper(scores, lambda question: question.seniority)
         return self._calculate_avgs(groups)
 
     def calculate_subarea_avg(self, scores):
@@ -50,15 +50,15 @@ class Comparation:
 
     interviews = []
     candidate = []
-    band_standings = []
+    seniority_standings = []
     subarea_standings = []
     area_standings = []
     
 
-    def compare_by_band(self):
+    def compare_by_seniority(self):
         candidates = [interview.candidate for interview in self.interviews]
         calc = StatCalculator()
-        candidate_result = {interview.candidate: calc.calculate_band_avg(interview.question_scores)
+        candidate_result = {interview.candidate: calc.calculate_seniority_avg(interview.question_scores)
                             for interview in self.interviews}
         buckets = {bucket for result in results
                    for bucket in result.keys()}

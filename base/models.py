@@ -23,17 +23,17 @@ class Position(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1024)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=OPEN)
-    band = models.ForeignKey('band', on_delete=models.PROTECT, related_name='positions')
+    seniority = models.ForeignKey('seniority', on_delete=models.PROTECT, related_name='positions')
 
     def __str__(self):
         return self.name
 
 
-class Band(models.Model):
-    band = models.CharField(max_length=2)
+class Seniority(models.Model):
+    seniority = models.CharField(max_length=2)
 
     def __str__(self):
-        return self.band
+        return self.seniority
 
     
 class Subarea(models.Model):

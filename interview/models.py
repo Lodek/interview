@@ -12,7 +12,7 @@ class Question(models.Model):
 
     answer = models.CharField(max_length=5000)
 
-    band = models.ForeignKey('base.Band', on_delete=models.PROTECT,
+    seniority = models.ForeignKey('base.Seniority', on_delete=models.PROTECT,
                              related_name='questions')
 
     subarea = models.ForeignKey('base.Subarea', on_delete=models.SET_NULL,
@@ -21,7 +21,7 @@ class Question(models.Model):
     weight = models.IntegerField()
 
     def as_dict(self):
-        attrs = 'question answer band subarea weight'.split()
+        attrs = 'question answer seniority subarea weight'.split()
         dict = {attr: str(getattr(self, attr)) for attr in attrs}
         dict['weight'] = int(dict['weight'])
         return dict
@@ -76,7 +76,7 @@ class Interview(models.Model):
         dict = {attr: str(getattr(self, attr)) for attr in flat_attrs}
         dict['area_results'] = stringfy(calc.calculate_area_avg(scores))
         dict['subarea_results'] = stringfy(calc.calculate_subarea_avg(scores))
-        dict['band_results'] = stringfy(calc.calculate_band_avg(scores))
+        dict['seniority_results'] = stringfy(calc.calculate_seniority_avg(scores))
 
         scores = []
         for question, score in self.question_scores.items():

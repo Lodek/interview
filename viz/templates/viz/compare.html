@@ -5,14 +5,14 @@
 <script type="text/javascript">
 
   google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawBands);
+  google.charts.setOnLoadCallback(drawSeniorities);
   google.charts.setOnLoadCallback(drawAreas);
   google.charts.setOnLoadCallback(drawSubareas);
 
-  function drawBands() {
-      var data = new google.visualization.arrayToDataTable({{band_data | safe}});
-      var chart = new google.visualization.ComboChart(document.getElementById('band_chart'));
-      chart.draw(data, comboChartOptionFactory("Band"));
+  function drawSeniorities() {
+      var data = new google.visualization.arrayToDataTable({{seniority_data | safe}});
+      var chart = new google.visualization.ComboChart(document.getElementById('seniority_chart'));
+      chart.draw(data, comboChartOptionFactory("Seniorities"));
   }
 
   function drawAreas(){
@@ -71,7 +71,7 @@
 </center>
 
 <div class="result">
-  <div id="band_chart"></div>
+  <div id="seniority_chart"></div>
   <div id="area_chart"></div>
   <div id="subarea_chart"></div>
 </div>

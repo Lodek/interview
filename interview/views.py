@@ -11,7 +11,7 @@ from collections import defaultdict, namedtuple
 
 from .forms import SetupForm, score_form_factory, ObservationsForm, TemplateForm
 from .models import Template, Question, Score, Interview
-from base.models import Candidate, Position, Band, Subarea, Area
+from base.models import Candidate, Position, Seniority, Subarea, Area
 
 import uuid, csv, xlrd, io
 
@@ -141,7 +141,7 @@ def excel_to_dicts(file):
 
 def add_question_from_template(row):
     #TODO should be a get as bands are static
-    band, _ = Band.objects.get_or_create(band=row['Banda'])
+    seniority, _ = Seniority.objects.get_or_create(seniority=row['Senioridade'])
     subarea, _ = Subarea.objects.get_or_create(subarea=row['Subarea'])
     area, _ = Area.objects.get_or_create(area=row['Area'])
     if subarea.area != area:
@@ -155,6 +155,6 @@ def add_question_from_template(row):
         'answer': answer,
         'weight': weight,
         'subarea': subarea,
-        'band': band
+        'seniority': seniority
     })
     return question
