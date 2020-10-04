@@ -62,10 +62,7 @@ def evaluation(request):
 
 
 def observations(request):
-    extract_pk = lambda key: int(key.replace('score_', ''))
-    request.session['scores'] = [(extract_pk(key), int(score))
-                                 for key, score in request.POST.items() if 'score_' in key]
-
+    store_scores(request)
     return render(request, 'interview/observations.html', {
         'form': ObservationsForm()
     })
@@ -174,3 +171,19 @@ def add_question_from_template(row):
         'seniority': seniority
     })
     return question
+
+def store_scores(request):
+    """
+    Store score for each question in session object, does not store score
+    for skipped questions
+    """
+    remove_prefix = lambda key: int(key.split('_')[1])
+
+    skip_pks = [remove_prefix(key) for key, _ in request.POST.items() 
+                if 'skip_' in key]
+
+    scores = {remove_prefix(key): int(score) 
+              for key, score in request.POST.items() if 'score_' in key}
+
+    request.session['scores'] = [(pk, score) for pk, score in scores.items()
+                                 if pk not in skip_pks]
