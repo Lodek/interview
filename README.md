@@ -16,3 +16,5 @@ That was done in order to avoid running `chown` everytime `manage.py` was used t
 Work in progress right now.
 Need to setup a docker-compose to run an application server and configure nginx to serve the static files, as django doesn't do that out of the box.
 
+# About
+To knowo more about the app, checkout the [about](./about.md)
