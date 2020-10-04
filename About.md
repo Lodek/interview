@@ -21,6 +21,24 @@ The solution was presented to my supervisor which then got introduced to the man
 
 # Screenshots
 
+The dashboard screen is where the user sees past interviews and can select them to compare
+
+![Dashboard]
+(./.screenshots/dashboard.png)
+
+The scoring screen is how the interviewer performs the interview.
+![Scoring]
+(./.screenshots/evaluation.png)
+
+The result report is displayed at the end of the interview
+![Report]
+(./.screenshots/result.png)
+
+The comparasion report is used to compare the results among past interviews.
+![Comparasion]
+(./.screenshots/comparasion.png)
+
+
 # Tech Stack
 The app was written in Django and uses Postgre as the database.
 The python dependency managemeent is done using poetry.
