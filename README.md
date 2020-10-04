@@ -17,4 +17,4 @@ Work in progress right now.
 Need to setup a docker-compose to run an application server and configure nginx to serve the static files, as django doesn't do that out of the box.
 
 # About
-To knowo more about the app, checkout the [about](./about.md)
+To knowo more about the app, checkout the [about](./About.md)
