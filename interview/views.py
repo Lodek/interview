@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 
 from collections import defaultdict, namedtuple
 
-from .forms import SetupForm, score_form_factory, ObservationsForm, TemplateForm
+from .forms import SetupForm, score_form_factory, ObservationsForm, TemplateForm, skip_form_factory
 from .models import Template, Question, Score, Interview
 from base.models import Candidate, Position, Seniority, Subarea, Area
 
@@ -17,11 +17,17 @@ import uuid, csv, xlrd, io
 
 
 def setup(request):
+    """setup screen render function"""
     form = SetupForm()
     return render(request, 'interview/setup.html', {'form': form})
 
 
 def evaluation(request):
+    """
+    Evaluation screen render function.
+    Receive data to create interview from query params.
+    Store the initial setup data for the interview on the current session.
+    """
     candidate_name = request.GET['candidate']
     candidate, _ = Candidate.objects.get_or_create(name=candidate_name)
     request.session['template_id'] = request.GET['template']
@@ -33,16 +39,22 @@ def evaluation(request):
     questions = template.questions.all()
 
     formatter = lambda q: f'score_{q.id}'
-    field_names = [formatter(question) for question in questions]
-    Form = score_form_factory(field_names)
-    form = Form()
+    score_field_names = [formatter(question) for question in questions]
+    ScoreForm = score_form_factory(score_field_names)
+    score_form = ScoreForm()
+
+    checkbox_formatter = lambda q: f'skip_{q.id}'
+    skip_field_names = [checkbox_formatter(question) for question in questions]
+    SkipForm = skip_form_factory(skip_field_names)
+    skip_form = SkipForm()
+
 
     areas = defaultdict(list)
     for question in questions:
         area = question.subarea.area
         areas[area.area].append(question)
 
-    areas = {area: [(i + 1, question, form[formatter(question)])
+    areas = {area: [(i + 1, question, score_form[formatter(question)], skip_form[checkbox_formatter(question)])
                     for i, question in enumerate(questions)]
              for area, questions in areas.items()}
 

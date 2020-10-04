@@ -20,11 +20,12 @@
         <th scope="col">Seniority</th>
         <th scope="col">Weight</th>
         <th scope="col">Score</th>
+        <th scope="col">Skip</th>
       </tr>
       </thead>
 
       <tbody class="table-striped">
-      {% for i, question, field in questions %}
+      {% for i, question, field, checkbox in questions %}
       <tr class="question-row">
         <th scope-"row">{{i}}</th>
         <th>
@@ -37,6 +38,7 @@
         <th>{{question.seniority}}</th>
         <th>{{question.weight}}</th>
         <th>{{field}}</th>
+        <th>{{checkbox}}</th>
       </tr>
       {% endfor %}
       </tbody>
